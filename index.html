@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
     <title>Launchpad – Free Business Website by IPG</title>
     <meta name="description"
         content="Get a free, professionally designed website for your small business. Launchpad by IPG — modern tools for the modern small business. For a limited time, your website design is completely free." />
@@ -56,16 +56,20 @@
             box-sizing: border-box;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f8fafc;
             color: #334155;
             -webkit-font-smoothing: antialiased;
             cursor: none;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        html {
+            overflow-x: hidden;
+            width: 100%;
+            scroll-behavior: smooth;
         }
 
         @media (hover: none) {
@@ -845,7 +849,7 @@
 
                 <!-- Survey card — styled to blend into the dark section -->
                 <div class="reveal p-3 sm:p-10" id="survey-iframe-wrap"
-                    style="background:rgba(255,255,255,0.06);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.15);border-radius:1.5rem;box-shadow:0 24px 80px 0 rgba(0,0,0,0.35);">
+                    style="background:rgba(255,255,255,0.06);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.15);border-radius:1.5rem;box-shadow:0 24px 80px 0 rgba(0,0,0,0.35);touch-action:pan-y;">
 
                     <!-- Inner white surface that holds the iframe -->
                     <div class="p-4 sm:p-8" style="background:#fff;border-radius:1rem;overflow:hidden;">
@@ -1152,12 +1156,18 @@
             if (isTouch) return;
             const canvas = document.getElementById('cursor-canvas');
             const ctx = canvas.getContext('2d');
-            let w, h;
+            let w = window.innerWidth, h = window.innerHeight;
             const setSize = () => {
-                w = canvas.width = window.innerWidth;
-                h = canvas.height = window.innerHeight;
+                const newW = window.innerWidth;
+                const newH = window.innerHeight;
+                // Ignore small height changes (virtual keyboard) to prevent jank
+                if (Math.abs(newW - w) > 10 || Math.abs(newH - h) > 120) {
+                    w = canvas.width = newW;
+                    h = canvas.height = newH;
+                }
             };
-            setSize();
+            canvas.width = w;
+            canvas.height = h;
             window.addEventListener('resize', setSize);
 
             let mouseX = -100, mouseY = -100;
