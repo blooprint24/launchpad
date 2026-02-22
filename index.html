@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Launchpad – Free Business Website by IPG</title>
+    <meta name="description"
+        content="Get a free, professionally designed website for your small business. Launchpad by IPG — modern tools for the modern small business. For a limited time, your website design is completely free." />
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- GSAP CDN + ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        brand: {
+                            DEFAULT: '#2563EB',
+                            light: '#3B82F6',
+                            dark: '#1D4ED8',
+                            muted: '#EFF6FF',
+                            deep: '#1e40af',
+                        },
+                        indigo: {
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                        },
+                        amber: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                        },
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+            -webkit-font-smoothing: antialiased;
+            cursor: none;
+        }
+
+        @media (hover: none) {
+            body {
+                cursor: auto;
+            }
+        }
+
+        /* ══ CUSTOM CURSOR ══ */
+        #cursor-dot {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1, #2563EB);
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            will-change: transform;
+        }
+
+        #cursor-ring {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(99, 102, 241, 0.45);
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: width .3s cubic-bezier(.25, .46, .45, .94),
+                height .3s cubic-bezier(.25, .46, .45, .94),
+                border-color .3s, background-color .3s;
+            will-change: transform;
+        }
+
+        #cursor-ring.is-hovering {
+            width: 52px;
+            height: 52px;
+            border-color: rgba(99, 102, 241, .55);
+            background-color: rgba(99, 102, 241, .07);
+        }
+
+        @media (hover:none),
+        (max-width:767px) {
+
+            #cursor-dot,
+            #cursor-ring {
+                display: none;
+            }
+        }
+
+        /* ══ HERO ══ */
+        .hero-bg {
+            position: relative;
+            overflow: hidden;
+            /* Rich multi-stop gradient: deep indigo top-left → electric blue → light blue-white */
+            background: linear-gradient(145deg,
+                    #0f172a 0%,
+                    #1e3a8a 28%,
+                    #1d4ed8 52%,
+                    #3b82f6 72%,
+                    #eff6ff 100%);
+        }
+
+        /* Blobs now glow on the dark background */
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0;
+            pointer-events: none;
+            will-change: transform, opacity;
+        }
+
+        .blob-1 {
+            width: 560px;
+            height: 560px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.35) 0%, transparent 70%);
+            top: -140px;
+            left: -100px;
+        }
+
+        .blob-2 {
+            width: 440px;
+            height: 440px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.30) 0%, transparent 70%);
+            top: 80px;
+            right: -80px;
+        }
+
+        .blob-3 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(251, 191, 36, 0.18) 0%, transparent 70%);
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Hero text — white on dark gradient */
+        .hero-eyebrow-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 0.4rem 1rem;
+            border-radius: 9999px;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-eyebrow-dot {
+            width: 0.45rem;
+            height: 0.45rem;
+            border-radius: 50%;
+            background: #fbbf24;
+            display: inline-block;
+        }
+
+        /* ══ GRAIN OVERLAY ══ */
+        .grain-overlay {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 180px 180px;
+        }
+
+        /* ══ BUTTONS ══ */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, #6366f1 0%, #2563EB 60%, #1d4ed8 100%);
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.9375rem;
+            letter-spacing: -0.01em;
+            padding: 0.8rem 1.85rem;
+            border-radius: 9999px;
+            border: none;
+            cursor: none;
+            text-decoration: none;
+            white-space: nowrap;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px 0 rgba(99, 102, 241, 0.4);
+            transition: box-shadow 0.25s ease, transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 9999px;
+            background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.18) 50%, transparent 65%);
+            transform: translateX(-110%);
+            transition: transform 0.55s ease;
+        }
+
+        .btn-primary:hover::after {
+            transform: translateX(110%);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 8px 28px 0 rgba(99, 102, 241, 0.52);
+            transform: translateY(-3px) scale(1.015);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0) scale(0.98);
+            box-shadow: 0 2px 8px 0 rgba(99, 102, 241, 0.3);
+        }
+
+        @media (hover:none) {
+            .btn-primary {
+                cursor: pointer;
+            }
+        }
+
+        /* White ghost button (used in dark hero) */
+        .btn-ghost-white {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 500;
+            font-size: 0.9375rem;
+            text-decoration: none;
+            padding: 0.8rem 0;
+            position: relative;
+            cursor: none;
+        }
+
+        .btn-ghost-white::after {
+            content: '';
+            position: absolute;
+            bottom: 0.4rem;
+            left: 0;
+            width: 0;
+            height: 1.5px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 2px;
+            transition: width 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .btn-ghost-white:hover::after {
+            width: 100%;
+        }
+
+        .btn-ghost-white:hover {
+            color: #fff;
+        }
+
+        @media (hover:none) {
+            .btn-ghost-white {
+                cursor: pointer;
+            }
+        }
+
+        /* ══ CARD ══ */
+        .card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 1.25rem;
+            box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.07);
+            transition: box-shadow 0.28s ease, transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .step-card:hover {
+            box-shadow: 0 16px 40px 0 rgba(99, 102, 241, 0.12);
+            transform: translateY(-5px);
+        }
+
+        /* ══ STEP BADGE ══ */
+        .step-badge {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 9999px;
+            background: linear-gradient(135deg, #eff6ff, #e0e7ff);
+            color: #4f46e5;
+            font-weight: 700;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: background 0.25s ease, color 0.25s ease;
+        }
+
+        .step-card:hover .step-badge {
+            background: linear-gradient(135deg, #6366f1, #2563EB);
+            color: #fff;
+        }
+
+        /* ══ SECTION LABELS ══ */
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #6366f1, #2563EB);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.75rem;
+        }
+
+        /* ══ CONFIDENCE BULLETS ══ */
+        .confidence-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .confidence-item::before {
+            content: '';
+            display: block;
+            width: 0.375rem;
+            height: 0.375rem;
+            border-radius: 9999px;
+            flex-shrink: 0;
+        }
+
+        /* hero version — white */
+        .confidence-item-light {
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        .confidence-item-light::before {
+            background: #fbbf24;
+        }
+
+        /* body version — slate */
+        .confidence-item-dark {
+            color: #64748b;
+        }
+
+        .confidence-item-dark::before {
+            background: #6366f1;
+        }
+
+        /* ══ INCLUDE CHECKLIST ══ */
+        .include-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+        }
+
+        .include-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.9rem;
+            color: #334155;
+            font-weight: 500;
+        }
+
+        .include-list li::before {
+            content: '';
+            display: inline-block;
+            width: 1.1rem;
+            height: 1.1rem;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1, #2563EB);
+            -webkit-mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='white' d='M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.75.75 0 1 1 1.06-1.06L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0z'/%3E%3C/svg%3E") center/cover no-repeat;
+            mask: url("data:image/svg+xml,%3Csvg viewBox='0 0 16 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='white' d='M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.75.75 0 1 1 1.06-1.06L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0z'/%3E%3C/svg%3E") center/cover no-repeat;
+        }
+
+        /* ══ FAQ ══ */
+        .faq-item {
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-trigger {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1.25rem 0;
+            background: none;
+            border: none;
+            cursor: none;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9375rem;
+            color: #1e293b;
+            transition: color 0.18s;
+        }
+
+        .faq-trigger:hover {
+            color: #4f46e5;
+        }
+
+        .faq-trigger .faq-icon {
+            flex-shrink: 0;
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #eff6ff, #e0e7ff);
+            color: #4f46e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            line-height: 1;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+                background 0.22s, color 0.22s;
+            user-select: none;
+        }
+
+        .faq-trigger[aria-expanded="true"] .faq-icon {
+            transform: rotate(45deg);
+            background: linear-gradient(135deg, #6366f1, #2563EB);
+            color: #fff;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            font-size: 0.9rem;
+            color: #475569;
+            line-height: 1.75;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding-bottom 0.3s;
+            padding-bottom: 0;
+        }
+
+        .faq-answer.open {
+            max-height: 600px;
+            padding-bottom: 1.25rem;
+        }
+
+        @media (hover:none) {
+            .faq-trigger {
+                cursor: pointer;
+            }
+        }
+
+        /* ══ NAV ══ */
+        .nav-scrolled {
+            box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.10);
+            background-color: rgba(255, 255, 255, 0.96) !important;
+        }
+
+        /* ══ IFRAME ══ */
+        #survey-iframe-wrap {
+            position: relative;
+            min-height: 520px;
+        }
+
+        #survey-iframe-wrap iframe {
+            min-height: 520px;
+        }
+
+        /* ══ REVEAL ══ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+        }
+
+        /* ══ ACCENT SECTION DIVIDERS ══ */
+        .section-wave {
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+        }
+
+        .section-wave svg {
+            display: block;
+        }
+
+        /* ══ PRICING HIGHLIGHT CARD ══ */
+        .pricing-card {
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 60%, #1d4ed8 100%);
+            color: #fff;
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            box-shadow: 0 20px 60px 0 rgba(37, 99, 235, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.3) 0%, transparent 70%);
+            top: -80px;
+            right: -60px;
+            pointer-events: none;
+        }
+
+        .pricing-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(251, 191, 36, 0.2);
+            border: 1px solid rgba(251, 191, 36, 0.4);
+            color: #fbbf24;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 0.3rem 0.85rem;
+            border-radius: 9999px;
+            margin-bottom: 1.25rem;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen">
+
+    <div class="grain-overlay" aria-hidden="true"></div>
+    <div id="cursor-dot" aria-hidden="true"></div>
+    <div id="cursor-ring" aria-hidden="true"></div>
+
+    <!-- ══════════════════════════════════════════
+       HEADER
+  ══════════════════════════════════════════ -->
+    <header id="site-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent">
+        <div class="max-w-6xl mx-auto px-5 sm:px-8 py-4 flex items-center justify-between">
+
+            <!-- Wordmark -->
+            <a href="#" class="flex items-center gap-2.5 no-underline magnetic" aria-label="Launchpad home">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true">
+                    <circle cx="15" cy="15" r="14" fill="url(#logo-grad)" />
+                    <path d="M9 21 L15 9 L21 21" stroke="white" stroke-width="2.2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    <line x1="11" y1="17.5" x2="19" y2="17.5" stroke="white" stroke-width="2" stroke-linecap="round" />
+                    <defs>
+                        <linearGradient id="logo-grad" x1="0" y1="0" x2="30" y2="30" gradientUnits="userSpaceOnUse">
+                            <stop offset="0%" stop-color="#6366f1" />
+                            <stop offset="100%" stop-color="#2563EB" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <div class="flex flex-col leading-none">
+                    <span class="font-bold text-base tracking-tight text-white">Launchpad</span>
+                    <span class="text-white/60 text-[0.65rem] font-medium tracking-wide">by IPG</span>
+                </div>
+            </a>
+
+            <!-- Nav CTA -->
+            <a href="#start-form" id="nav-cta" class="btn-primary magnetic text-sm py-2.5 px-5">
+                Claim My Free Site
+            </a>
+        </div>
+    </header>
+
+
+    <!-- ══════════════════════════════════════════
+       HERO (dark gradient)
+  ══════════════════════════════════════════ -->
+    <main>
+        <section id="hero" class="hero-bg pt-32 pb-28 sm:pt-44 sm:pb-36 px-5 sm:px-8">
+
+            <div class="blob blob-1" aria-hidden="true"></div>
+            <div class="blob blob-2" aria-hidden="true"></div>
+            <div class="blob blob-3" aria-hidden="true"></div>
+
+            <div class="max-w-3xl mx-auto text-center" style="position:relative;z-index:2;">
+
+                <div id="hero-eyebrow" class="hero-eyebrow-pill opacity-0">
+                    <span class="hero-eyebrow-dot"></span>
+                    Modern Tools · Modern Business · Free for a Limited Time
+                </div>
+
+                <h1 id="hero-h1"
+                    class="text-4xl sm:text-5xl lg:text-[3.6rem] font-bold text-white leading-tight tracking-tight mb-5 opacity-0">
+                    Your Business Deserves<br class="hidden sm:block" />
+                    a <span
+                        style="background:linear-gradient(90deg,#fbbf24,#f97316);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Professional
+                        Website.</span><br />
+                    We're Giving Them Away.
+                </h1>
+
+                <p id="hero-sub"
+                    class="text-lg sm:text-xl text-white/70 leading-relaxed max-w-xl mx-auto mb-8 opacity-0">
+                    We're giving away professionally designed websites — <strong class="text-white">completely free,
+                        for now.</strong> Your site closes deals, wins customers, and grows your business.
+                    You only pay for hosting when you're ready to go live.
+                </p>
+
+                <div id="hero-bullets"
+                    class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mb-10 opacity-0">
+                    <span class="confidence-item confidence-item-light">100% free — design &amp; build</span>
+                    <span class="confidence-item confidence-item-light">Live in as little as 3 days</span>
+                    <span class="confidence-item confidence-item-light">Limited-time offer</span>
+                </div>
+
+                <div id="hero-ctas" class="flex flex-col sm:flex-row items-center justify-center gap-4 opacity-0">
+                    <a href="#start-form" class="btn-primary magnetic px-8 py-4 text-base">
+                        Claim My Free Site
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                            aria-hidden="true">
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                            <polyline points="12 5 19 12 12 19" />
+                        </svg>
+                    </a>
+                    <a href="#how-it-works" class="btn-ghost-white magnetic">
+                        See how it works
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                            aria-hidden="true">
+                            <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Wave transition from dark hero to white -->
+        <div class="section-wave" aria-hidden="true" style="margin-top:-2px;background:#fff;">
+            <svg viewBox="0 0 1440 72" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"
+                style="height:72px;width:100%;">
+                <path d="M0,72 C360,0 1080,72 1440,20 L1440,0 L0,0 Z" fill="url(#hero-wave-grad)" />
+                <defs>
+                    <linearGradient id="hero-wave-grad" x1="0" y1="0" x2="1" y2="0" gradientUnits="objectBoundingBox">
+                        <stop offset="0%" stop-color="#0f172a" />
+                        <stop offset="50%" stop-color="#1d4ed8" />
+                        <stop offset="100%" stop-color="#3b82f6" />
+                    </linearGradient>
+                </defs>
+            </svg>
+        </div>
+
+
+        <!-- ══════════════════════════════════════════
+         HOW IT WORKS
+    ══════════════════════════════════════════ -->
+        <section id="how-it-works" class="py-24 px-5 sm:px-8 bg-white">
+            <div class="max-w-5xl mx-auto">
+
+                <div class="text-center mb-14 reveal">
+                    <p class="section-label">Simple Process</p>
+                    <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">How Launchpad Works</h2>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 relative">
+
+                    <div class="step-card card p-8 flex flex-col gap-4 reveal">
+                        <div class="step-badge">1</div>
+                        <div>
+                            <h3 class="font-semibold text-slate-900 text-lg mb-1">Fill out the quick form</h3>
+                            <p class="text-slate-500 text-sm leading-relaxed">
+                                Tell us about your business — name, industry, goals. It takes about 2 minutes and
+                                there's nothing to sign up for.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="hidden sm:flex items-center justify-center absolute top-1/2 left-[calc(33.33%-1rem)] -translate-y-1/2 pointer-events-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="#c7d2fe" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                            <polyline points="12 5 19 12 12 19" />
+                        </svg>
+                    </div>
+
+                    <div class="step-card card p-8 flex flex-col gap-4 reveal">
+                        <div class="step-badge">2</div>
+                        <div>
+                            <h3 class="font-semibold text-slate-900 text-lg mb-1">We design your site</h3>
+                            <p class="text-slate-500 text-sm leading-relaxed">
+                                Our team builds 2–3 custom website variations tailored to your brand. You'll receive a
+                                preview link within 1–3 business days.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="hidden sm:flex items-center justify-center absolute top-1/2 left-[calc(66.66%-1rem)] -translate-y-1/2 pointer-events-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="#c7d2fe" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                            <polyline points="12 5 19 12 12 19" />
+                        </svg>
+                    </div>
+
+                    <div class="step-card card p-8 flex flex-col gap-4 reveal">
+                        <div class="step-badge">3</div>
+                        <div>
+                            <h3 class="font-semibold text-slate-900 text-lg mb-1">Customize &amp; go live</h3>
+                            <p class="text-slate-500 text-sm leading-relaxed">
+                                Pick your favorite variation, we add your branding, and you're live. The site is free —
+                                you only pay for hosting.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ══════════════════════════════════════════
+         WHAT'S INCLUDED (pricing + customization)
+    ══════════════════════════════════════════ -->
+        <section id="whats-included" class="py-24 px-5 sm:px-8"
+            style="background:linear-gradient(150deg,#f8fafc 0%,#eff6ff 50%,#e0e7ff 100%);">
+            <div class="max-w-5xl mx-auto">
+
+                <div class="text-center mb-14 reveal">
+                    <p class="section-label">What You Get</p>
+                    <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">Everything you need to go
+                        live.</h2>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+
+                    <!-- Left — customization list -->
+                    <div class="reveal">
+                        <div class="card p-8">
+                            <p class="text-xs font-bold uppercase tracking-widest text-indigo-500 mb-4">Your
+                                customizations</p>
+                            <ul class="include-list">
+                                <li>Your logo &amp; brand mark</li>
+                                <li>Your primary brand color</li>
+                                <li>Business name, tagline &amp; contact info</li>
+                                <li>Any page text or copy edits</li>
+                                <li>2–3 design variations to choose from</li>
+                            </ul>
+                            <div class="mt-6 pt-5 border-t border-slate-100">
+                                <p class="text-sm text-slate-500 leading-relaxed">
+                                    Once you choose a variation we personalize it with your brand details
+                                    and make it ready to publish — typically within <strong class="text-slate-700">3
+                                        business days</strong>.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right — pricing card -->
+                    <div class="reveal">
+                        <div class="pricing-card">
+                            <div class="pricing-badge">
+                                <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor">
+                                    <circle cx="5" cy="5" r="5" />
+                                </svg>
+                                Simple Pricing
+                            </div>
+                            <h3 class="text-2xl font-bold text-white mb-2">The site design?</h3>
+                            <div class="flex items-end gap-2 mb-2">
+                                <span class="text-5xl font-black text-white">Free.</span>
+                            </div>
+                            <p class="text-white/65 text-sm mb-6 leading-relaxed">
+                                We design and build your website at no charge. When you're ready to share it with the
+                                world, we host it for you for a simple monthly fee.
+                            </p>
+                            <div class="border-t border-white/15 pt-5">
+                                <p class="text-white/55 text-xs uppercase font-semibold tracking-widest mb-3">Included
+                                    at no cost</p>
+                                <ul class="flex flex-col gap-2">
+                                    <li class="text-white/80 text-sm flex items-center gap-2">
+                                        <span class="text-amber-400">✓</span> Custom design tailored to your business
+                                    </li>
+                                    <li class="text-white/80 text-sm flex items-center gap-2">
+                                        <span class="text-amber-400">✓</span> 2–3 design variations
+                                    </li>
+                                    <li class="text-white/80 text-sm flex items-center gap-2">
+                                        <span class="text-amber-400">✓</span> Full branding customization
+                                    </li>
+                                    <li class="text-white/80 text-sm flex items-center gap-2">
+                                        <span class="text-amber-400">✓</span> Live preview before committing
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ══════════════════════════════════════════
+         EMBEDDED FORM
+     ══════════════════════════════════════════ -->
+        <section id="start-form"
+            style="background:linear-gradient(155deg,#0f172a 0%,#1e3a8a 35%,#2563eb 68%,#6366f1 100%); padding: 6rem 1.25rem;">
+            <div class="max-w-3xl mx-auto">
+
+                <!-- Section heading -->
+                <div class="text-center mb-10 reveal">
+                    <p
+                        style="display:inline-block;font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:0.6rem;">
+                        Let's Build It</p>
+                    <h2 class="text-3xl sm:text-4xl font-bold tracking-tight mb-3" style="color:#fff;">Grow Your
+                        Business Online</h2>
+                    <p
+                        style="color:rgba(255,255,255,0.65);font-size:1rem;max-width:36rem;margin:0 auto;line-height:1.7;">
+                        Every business deserves a website that wins customers and closes deals.
+                        Fill out the form below and we'll get yours built — at no cost to you.
+                    </p>
+                </div>
+
+                <!-- Urgency banner -->
+                <div class="reveal" style="margin-bottom:1.5rem;">
+                    <div
+                        style="display:flex;align-items:center;gap:0.75rem;justify-content:center;background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.35);border-radius:9999px;padding:0.55rem 1.25rem;width:fit-content;margin:0 auto;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2.5"
+                            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="12" y1="8" x2="12" y2="12" />
+                            <line x1="12" y1="16" x2="12.01" y2="16" />
+                        </svg>
+                        <span style="font-size:0.8rem;font-weight:700;color:#fbbf24;letter-spacing:0.02em;">Free for a
+                            limited time — claim your site today before this offer ends</span>
+                    </div>
+                </div>
+
+                <!-- Survey card — styled to blend into the dark section -->
+                <div class="reveal" id="survey-iframe-wrap"
+                    style="background:rgba(255,255,255,0.06);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.15);border-radius:1.5rem;padding:2rem 2rem 2rem;box-shadow:0 24px 80px 0 rgba(0,0,0,0.35);">
+
+                    <!-- Inner white surface that holds the iframe -->
+                    <div style="background:#fff;border-radius:1rem;overflow:hidden;padding:1.5rem;">
+                        <!-- Embedded Survey — do not alter -->
+                        <iframe src="https://updates.idealperformancegroup.com/widget/survey/Eeqr4wWgy7LWi2DPdsFW"
+                            style="border:none;width:100%;display:block;min-height:520px;" scrolling="no"
+                            id="Eeqr4wWgy7LWi2DPdsFW" title="Free Website Setup Survey">
+                        </iframe>
+                        <script src="https://updates.idealperformancegroup.com/js/form_embed.js"></script>
+                    </div>
+
+                    <!-- Below-form trust strip inside the card -->
+                    <div
+                        style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:1.25rem 2rem;margin-top:1.25rem;">
+                        <span
+                            style="display:flex;align-items:center;gap:0.4rem;font-size:0.8rem;font-weight:500;color:rgba(255,255,255,0.6);">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6366f1"
+                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                            </svg>
+                            Your info is private &amp; secure
+                        </span>
+                        <span
+                            style="display:flex;align-items:center;gap:0.4rem;font-size:0.8rem;font-weight:500;color:rgba(255,255,255,0.6);">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6366f1"
+                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12" />
+                            </svg>
+                            No commitment required
+                        </span>
+                        <span
+                            style="display:flex;align-items:center;gap:0.4rem;font-size:0.8rem;font-weight:500;color:rgba(255,255,255,0.6);">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6366f1"
+                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="1" x2="12" y2="23" />
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                            </svg>
+                            Website design is always free
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Mission statement below the form -->
+                <div class="reveal" style="text-align:center;margin-top:2.5rem;">
+                    <p
+                        style="color:rgba(255,255,255,0.55);font-size:0.9rem;line-height:1.8;max-width:32rem;margin:0 auto;">
+                        Our mission is simple: <strong style="color:rgba(255,255,255,0.85);">every small business should
+                            have a website that helps them win.</strong>
+                        We provide modern tools for the modern small business — and right now, that starts with a free
+                        site.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ══════════════════════════════════════════
+         FAQ
+    ══════════════════════════════════════════ -->
+        <section id="faq" class="py-24 px-5 sm:px-8"
+            style="background:linear-gradient(150deg,#f8fafc 0%,#eff6ff 60%,#f8fafc 100%);">
+            <div class="max-w-2xl mx-auto">
+
+                <div class="text-center mb-12 reveal">
+                    <p class="section-label">Questions</p>
+                    <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">You might be wondering…
+                    </h2>
+                </div>
+
+                <div class="card px-6 sm:px-8 reveal" id="faq-list">
+
+                    <div class="faq-item">
+                        <button class="faq-trigger magnetic" aria-expanded="false" aria-controls="faq-a1" id="faq-q1">
+                            Is the website really free?
+                            <span class="faq-icon" aria-hidden="true">+</span>
+                        </button>
+                        <div class="faq-answer" id="faq-a1" role="region" aria-labelledby="faq-q1">
+                            Yes — the design and build of your website is completely free. No credit card, no strings
+                            attached. The only cost comes when you decide you want to publish it: we host the site for
+                            you for a simple monthly hosting fee. If you're not ready to go live, there's no obligation.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-trigger magnetic" aria-expanded="false" aria-controls="faq-a2" id="faq-q2">
+                            What if I want to go live? What are the hosting options?
+                            <span class="faq-icon" aria-hidden="true">+</span>
+                        </button>
+                        <div class="faq-answer" id="faq-a2" role="region" aria-labelledby="faq-q2">
+                            When you're ready to go live, we offer two simple monthly plans — and there's no obligation
+                            until you decide you want to publish. We handle all of the technical stuff so you can stay
+                            focused on your business.
+
+                            <!-- Plan cards -->
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin:1rem 0 0.25rem;">
+                                <!-- Plan 1 -->
+                                <div style="border:1.5px solid #e2e8f0;border-radius:0.875rem;padding:1rem 1.1rem;">
+                                    <p
+                                        style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6366f1;margin-bottom:0.35rem;">
+                                        Website Hosting</p>
+                                    <p style="font-size:1.5rem;font-weight:800;color:#1e293b;line-height:1;">$47<span
+                                            style="font-size:0.8rem;font-weight:500;color:#94a3b8;">/mo</span></p>
+                                    <p style="font-size:0.8rem;color:#64748b;margin-top:0.4rem;line-height:1.5;">Your
+                                        site hosted and live — fully managed for you.</p>
+                                </div>
+                                <!-- Plan 2 -->
+                                <div
+                                    style="border:1.5px solid #6366f1;border-radius:0.875rem;padding:1rem 1.1rem;background:linear-gradient(135deg,#f5f3ff 0%,#eff6ff 100%);position:relative;">
+                                    <span
+                                        style="position:absolute;top:-0.6rem;right:0.8rem;background:linear-gradient(90deg,#6366f1,#2563EB);color:#fff;font-size:0.65rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:0.2rem 0.6rem;border-radius:9999px;">Popular</span>
+                                    <p
+                                        style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6366f1;margin-bottom:0.35rem;">
+                                        Professional Bundle</p>
+                                    <p style="font-size:1.5rem;font-weight:800;color:#1e293b;line-height:1;">$67<span
+                                            style="font-size:0.8rem;font-weight:500;color:#94a3b8;">/mo</span></p>
+                                    <p style="font-size:0.8rem;color:#64748b;margin-top:0.4rem;line-height:1.5;">
+                                        Everything in hosting, plus a professional business email and a professional
+                                        phone number for your business.</p>
+                                </div>
+                            </div>
+
+                            <!-- Perks included with hosting -->
+                            <div
+                                style="background:linear-gradient(135deg,#f8fafc 0%,#eff6ff 100%);border:1px solid #e2e8f0;border-radius:0.875rem;padding:1rem 1.1rem;margin-top:0.85rem;">
+                                <p
+                                    style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6366f1;margin-bottom:0.6rem;">
+                                    Included with every hosting plan</p>
+                                <ul
+                                    style="display:flex;flex-direction:column;gap:0.55rem;margin:0;padding:0;list-style:none;">
+                                    <li
+                                        style="display:flex;align-items:flex-start;gap:0.55rem;font-size:0.85rem;color:#334155;">
+                                        <svg style="flex-shrink:0;margin-top:2px;" width="15" height="15"
+                                            viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2.5"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="20 6 9 17 4 12" />
+                                        </svg>
+                                        <span><strong>Free CRM for your business</strong> — a simple tool that helps you
+                                            track your clients, follow up on leads, and manage every customer
+                                            relationship in one place, so nothing falls through the cracks.</span>
+                                    </li>
+                                    <li
+                                        style="display:flex;align-items:flex-start;gap:0.55rem;font-size:0.85rem;color:#334155;">
+                                        <svg style="flex-shrink:0;margin-top:2px;" width="15" height="15"
+                                            viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2.5"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="20 6 9 17 4 12" />
+                                        </svg>
+                                        <span><strong>Mobile app</strong> — stay on top of your clientele and
+                                            communicate with customers directly from your phone, no laptop
+                                            required.</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <p style="font-size:0.82rem;color:#94a3b8;margin-top:0.85rem;font-style:italic;">
+                                No obligation until you're ready. Your site design is always free — hosting is only if
+                                and when you choose to go live.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-trigger magnetic" aria-expanded="false" aria-controls="faq-a3" id="faq-q3">
+                            How does the customization process work?
+                            <span class="faq-icon" aria-hidden="true">+</span>
+                        </button>
+                        <div class="faq-answer" id="faq-a3" role="region" aria-labelledby="faq-q3">
+                            After you submit the form, we build 2–3 design variations for your site. You'll receive a
+                            preview link by email so you can compare them side by side. Once you pick your favorite, we
+                            personalize it with your:
+                            <ul
+                                style="margin:0.75rem 0 0 1rem;list-style:disc;display:flex;flex-direction:column;gap:0.3rem;">
+                                <li>Logo &amp; brand mark</li>
+                                <li>Primary brand color</li>
+                                <li>Business name, tagline &amp; contact info</li>
+                                <li>Any additional text or copy edits</li>
+                            </ul>
+                            <p style="margin-top:0.75rem;">We typically have your customized site ready within 3
+                                business days of you selecting a design.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-trigger magnetic" aria-expanded="false" aria-controls="faq-a4" id="faq-q4">
+                            How long does the whole process take?
+                            <span class="faq-icon" aria-hidden="true">+</span>
+                        </button>
+                        <div class="faq-answer" id="faq-a4" role="region" aria-labelledby="faq-q4">
+                            The form takes about 2 minutes. We typically have your initial design variations ready in
+                            1–2 business days. Once you pick one and we apply your branding, your site can be live in as
+                            little as 3 business days total — start to finish.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-trigger magnetic" aria-expanded="false" aria-controls="faq-a5" id="faq-q5">
+                            What if I don't have a logo yet?
+                            <span class="faq-icon" aria-hidden="true">+</span>
+                        </button>
+                        <div class="faq-answer" id="faq-a5" role="region" aria-labelledby="faq-q5">
+                            No problem. We'll use a clean text-based placeholder so you can still see your site in
+                            context. You can swap in your real logo at any time — before or after going live.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <button class="faq-trigger magnetic" aria-expanded="false" aria-controls="faq-a6" id="faq-q6">
+                            Why are you giving sites away for free?
+                            <span class="faq-icon" aria-hidden="true">+</span>
+                        </button>
+                        <div class="faq-answer" id="faq-a6" role="region" aria-labelledby="faq-q6">
+                            Our goal is to help small businesses grow. Every business — no matter its size —
+                            deserves a website that helps them close deals and win in their market. Professional
+                            web design has always been expensive and out of reach. We're changing that.
+                            <br><br>
+                            Launchpad by IPG gives you a professionally built site for free. For now, we're
+                            offering this to as many small businesses as we can. Don't wait — the free design
+                            offer won't last forever. We earn our keep when you decide to host with us.
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="text-center mt-12 reveal">
+                    <a href="#start-form" class="btn-primary magnetic px-8 py-4 text-base">
+                        Claim My Free Website
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- ══════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════ -->
+    <footer style="background:linear-gradient(135deg,#0f172a 0%,#1e3a8a 100%);"
+        class="text-slate-400 py-12 px-5 sm:px-8">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 text-sm">
+
+            <div class="flex items-center gap-2.5">
+                <svg width="24" height="24" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true">
+                    <circle cx="15" cy="15" r="14" fill="url(#footer-logo-grad)" />
+                    <path d="M9 21 L15 9 L21 21" stroke="white" stroke-width="2.2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    <line x1="11" y1="17.5" x2="19" y2="17.5" stroke="white" stroke-width="2" stroke-linecap="round" />
+                    <defs>
+                        <linearGradient id="footer-logo-grad" x1="0" y1="0" x2="30" y2="30"
+                            gradientUnits="userSpaceOnUse">
+                            <stop offset="0%" stop-color="#818cf8" />
+                            <stop offset="100%" stop-color="#3b82f6" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <div class="flex flex-col leading-none">
+                    <span class="text-white font-bold text-sm">Launchpad</span>
+                    <span class="text-white/50 text-[0.65rem] font-medium">by IPG</span>
+                </div>
+            </div>
+
+            <span class="text-slate-500 text-xs">&copy; 2025 IPG. All rights reserved.</span>
+
+            <div class="flex gap-5">
+                <a href="#" class="text-slate-400 hover:text-white transition-colors duration-200 magnetic">Privacy
+                    Policy</a>
+                <a href="#" class="text-slate-400 hover:text-white transition-colors duration-200 magnetic">Terms of
+                    Service</a>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- ══════════════════════════════════════════
+       JAVASCRIPT
+  ══════════════════════════════════════════ -->
+    <script>
+        const isTouch = window.matchMedia('(hover: none)').matches;
+        gsap.registerPlugin(ScrollTrigger);
+
+        /* ── 1. FLOATING BLOBS ── */
+        (() => {
+            gsap.to('.blob', { opacity: 1, duration: 2, ease: 'power1.out', stagger: 0.35 });
+            gsap.to('.blob-1', { x: '+=55', y: '+=40', duration: 14, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+            gsap.to('.blob-2', { x: '-=45', y: '+=60', duration: 18, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 2 });
+            gsap.to('.blob-3', { scale: 1.18, duration: 12, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 4 });
+            if (!isTouch) {
+                document.addEventListener('mousemove', (e) => {
+                    const xN = (e.clientX / window.innerWidth - 0.5) * 2;
+                    const yN = (e.clientY / window.innerHeight - 0.5) * 2;
+                    gsap.to('.blob-1', { x: `+=${xN * 22}`, y: `+=${yN * 14}`, duration: 4, ease: 'power1.out', overwrite: 'auto' });
+                    gsap.to('.blob-2', { x: `+=${xN * -16}`, y: `+=${yN * 10}`, duration: 4, ease: 'power1.out', overwrite: 'auto' });
+                }, { passive: true });
+            }
+        })();
+
+        /* ── 2. CUSTOM MAGNETIC CURSOR ── */
+        (() => {
+            if (isTouch) return;
+            const dot = document.getElementById('cursor-dot');
+            const ring = document.getElementById('cursor-ring');
+            let mouseX = -200, mouseY = -200, ringX = -200, ringY = -200;
+            const LERP = 0.10;
+            const tick = () => {
+                ringX += (mouseX - ringX) * LERP;
+                ringY += (mouseY - ringY) * LERP;
+                ring.style.left = `${ringX}px`;
+                ring.style.top = `${ringY}px`;
+                requestAnimationFrame(tick);
+            };
+            tick();
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX; mouseY = e.clientY;
+                dot.style.left = `${mouseX}px`; dot.style.top = `${mouseY}px`;
+            }, { passive: true });
+            document.querySelectorAll('.magnetic, a, button, [role="button"]').forEach(el => {
+                el.addEventListener('mouseenter', () => ring.classList.add('is-hovering'));
+                el.addEventListener('mouseleave', () => ring.classList.remove('is-hovering'));
+                el.addEventListener('mousemove', (e) => {
+                    const r = el.getBoundingClientRect();
+                    const dx = (e.clientX - (r.left + r.width / 2)) * 0.22;
+                    const dy = (e.clientY - (r.top + r.height / 2)) * 0.22;
+                    gsap.to(el, { x: dx, y: dy, duration: 0.35, ease: 'power2.out', overwrite: 'auto' });
+                });
+                el.addEventListener('mouseleave', () => {
+                    gsap.to(el, { x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1,0.4)', overwrite: 'auto' });
+                });
+            });
+            document.addEventListener('mouseleave', () => gsap.to([dot, ring], { opacity: 0, duration: 0.3 }));
+            document.addEventListener('mouseenter', () => gsap.to([dot, ring], { opacity: 1, duration: 0.3 }));
+        })();
+
+        /* ── 3. HERO ENTRANCE ── */
+        (() => {
+            gsap.set(['#hero-eyebrow', '#hero-h1', '#hero-sub', '#hero-bullets', '#hero-ctas'], { y: 22, opacity: 0 });
+            const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+            tl.to('#hero-eyebrow', { opacity: 1, y: 0, duration: 0.65, delay: 0.15 })
+                .to('#hero-h1', { opacity: 1, y: 0, duration: 0.75 }, '-=0.4')
+                .to('#hero-sub', { opacity: 1, y: 0, duration: 0.65 }, '-=0.55')
+                .to('#hero-bullets', { opacity: 1, y: 0, duration: 0.55 }, '-=0.4')
+                .to('#hero-ctas', { opacity: 1, y: 0, duration: 0.55 }, '-=0.35');
+        })();
+
+        /* ── 4. SCROLL REVEALS ── */
+        (() => {
+            document.querySelectorAll('.reveal').forEach(el => {
+                ScrollTrigger.create({
+                    trigger: el, start: 'top 83%',
+                    onEnter: () => gsap.to(el, { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out', clearProps: 'transform' }),
+                    once: true,
+                });
+            });
+            ScrollTrigger.create({
+                trigger: '#how-it-works', start: 'top 76%',
+                onEnter: () => gsap.to('.step-card', { opacity: 1, y: 0, duration: 0.65, stagger: 0.16, ease: 'power2.out', clearProps: 'transform' }),
+                once: true,
+            });
+        })();
+
+        /* ── 5. NAV scroll state ── */
+        (() => {
+            const header = document.getElementById('site-header');
+            window.addEventListener('scroll', () => {
+                header.classList.toggle('nav-scrolled', window.scrollY > 40);
+            }, { passive: true });
+        })();
+
+        /* ── 6. FAQ ACCORDION ── */
+        (() => {
+            const triggers = document.querySelectorAll('.faq-trigger');
+            triggers.forEach(trigger => {
+                trigger.addEventListener('click', () => {
+                    const expanded = trigger.getAttribute('aria-expanded') === 'true';
+                    triggers.forEach(o => {
+                        if (o !== trigger) {
+                            o.setAttribute('aria-expanded', 'false');
+                            document.getElementById(o.getAttribute('aria-controls')).classList.remove('open');
+                        }
+                    });
+                    trigger.setAttribute('aria-expanded', String(!expanded));
+                    document.getElementById(trigger.getAttribute('aria-controls')).classList.toggle('open', !expanded);
+                });
+            });
+        })();
+
+        /* ── 7. SMOOTH ANCHOR SCROLL ── */
+        (() => {
+            document.querySelectorAll('a[href^="#"]').forEach(a => {
+                a.addEventListener('click', (e) => {
+                    const id = a.getAttribute('href');
+                    if (id === '#') return;
+                    const target = document.querySelector(id);
+                    if (!target) return;
+                    e.preventDefault();
+                    window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' });
+                });
+            });
+        })();
+    </script>
+
+</body>
+
+</html>
