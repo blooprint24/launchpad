@@ -546,7 +546,7 @@
        HEADER
   ══════════════════════════════════════════ -->
     <header id="site-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent">
-        <div class="max-w-6xl mx-auto px-5 sm:px-8 py-4 flex items-center justify-between">
+        <div class="max-w-6xl mx-auto px-4 sm:px-8 py-4 flex items-center justify-between">
 
             <!-- Wordmark -->
             <a href="#" class="flex items-center gap-2.5 no-underline magnetic" aria-label="Launchpad home">
@@ -570,7 +570,8 @@
             </a>
 
             <!-- Nav CTA -->
-            <a href="#start-form" id="nav-cta" class="btn-primary magnetic text-sm py-2.5 px-5">
+            <a href="#start-form" id="nav-cta"
+                class="btn-primary magnetic text-xs py-2 px-3 sm:text-sm sm:py-2.5 sm:px-5">
                 Claim My Free Site
             </a>
         </div>
@@ -581,7 +582,7 @@
        HERO (dark gradient)
   ══════════════════════════════════════════ -->
     <main>
-        <section id="hero" class="hero-bg pt-32 pb-28 sm:pt-44 sm:pb-36 px-5 sm:px-8">
+        <section id="hero" class="hero-bg pt-32 pb-28 sm:pt-44 sm:pb-36 px-4 sm:px-8">
 
             <div class="blob blob-1" aria-hidden="true"></div>
             <div class="blob blob-2" aria-hidden="true"></div>
@@ -809,8 +810,8 @@
         <!-- ══════════════════════════════════════════
          EMBEDDED FORM
      ══════════════════════════════════════════ -->
-        <section id="start-form"
-            style="background:linear-gradient(155deg,#0f172a 0%,#1e3a8a 35%,#2563eb 68%,#6366f1 100%); padding: 6rem 1.25rem;">
+        <section id="start-form" class="py-20 px-4 sm:px-8"
+            style="background:linear-gradient(155deg,#0f172a 0%,#1e3a8a 35%,#2563eb 68%,#6366f1 100%);">
             <div class="max-w-3xl mx-auto">
 
                 <!-- Section heading -->
@@ -843,11 +844,11 @@
                 </div>
 
                 <!-- Survey card — styled to blend into the dark section -->
-                <div class="reveal" id="survey-iframe-wrap"
-                    style="background:rgba(255,255,255,0.06);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.15);border-radius:1.5rem;padding:2rem 2rem 2rem;box-shadow:0 24px 80px 0 rgba(0,0,0,0.35);">
+                <div class="reveal p-3 sm:p-10" id="survey-iframe-wrap"
+                    style="background:rgba(255,255,255,0.06);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.15);border-radius:1.5rem;box-shadow:0 24px 80px 0 rgba(0,0,0,0.35);">
 
                     <!-- Inner white surface that holds the iframe -->
-                    <div style="background:#fff;border-radius:1rem;overflow:hidden;padding:1.5rem;">
+                    <div class="p-4 sm:p-8" style="background:#fff;border-radius:1rem;overflow:hidden;">
                         <!-- Embedded Survey — do not alter -->
                         <iframe src="https://updates.idealperformancegroup.com/widget/survey/Eeqr4wWgy7LWi2DPdsFW"
                             style="border:none;width:100%;display:block;min-height:520px;" scrolling="no"
